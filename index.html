@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#9b5c52" />
+  <title>Um convite para Mary 💌</title>
+  <link rel="icon" href="https://em-content.zobj.net/source/microsoft-teams/363/leopard_1f406.png">
+  <style>
+    :root {
+      --bg: #f8f0e8;
+      --card: rgba(255,255,255,.82);
+      --text: #3c2a27;
+      --muted: #725d58;
+      --accent: #9b5c52;
+      --accent-dark: #77443d;
+      --gold: #c89b5e;
+      --line: rgba(60,42,39,.12);
+      --shadow: 0 24px 70px rgba(76, 43, 37, .16);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, 'Times New Roman', serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(200,155,94,.18), transparent 30%),
+        radial-gradient(circle at 85% 85%, rgba(155,92,82,.15), transparent 30%),
+        var(--bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .05;
+      background-image: repeating-linear-gradient(0deg, #000 0 1px, transparent 1px 5px);
+      mix-blend-mode: multiply;
+    }
+
+    .shell {
+      width: min(920px, 100%);
+      position: relative;
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.65);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .top-note {
+      text-align: center;
+      padding: 26px 24px 4px;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .content {
+      padding: 26px clamp(28px, 7vw, 72px) 54px;
+      text-align: center;
+    }
+
+    .vinyl {
+      width: 92px;
+      height: 92px;
+      margin: 4px auto 20px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, #e3b47a 0 7%, #4a302b 8% 14%, #1e1817 15% 100%);
+      box-shadow: 0 9px 24px rgba(41, 28, 25, .20);
+      position: relative;
+      animation: spin 12s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .vinyl::after {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 9px; height: 9px;
+      transform: translate(-50%, -50%);
+      background: #f1dfbc;
+      border-radius: 50%;
+    }
+
+    .card:hover .vinyl { animation-play-state: running; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    h1 {
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: .96;
+      margin: 0;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 18px auto 0;
+      max-width: 640px;
+      font-size: clamp(18px, 3vw, 24px);
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .quote {
+      max-width: 650px;
+      margin: 28px auto;
+      padding: 18px 22px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      font-size: 17px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button, .link-button {
+      font: inherit;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 24px;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .primary {
+      color: white;
+      background: var(--accent);
+      box-shadow: 0 12px 24px rgba(155,92,82,.28);
+    }
+
+    .primary:hover { transform: translateY(-2px); background: var(--accent-dark); }
+
+    .secondary {
+      color: var(--text);
+      background: rgba(255,255,255,.7);
+      border: 1px solid var(--line);
+    }
+
+    .secondary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(60,42,39,.08); }
+
+    .screen { display: none; animation: fadeIn .45s ease both; }
+    .screen.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .date-area {
+      margin: 28px auto 0;
+      width: min(520px, 100%);
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 15px 16px;
+      background: rgba(255,255,255,.72);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus, select:focus { border-color: rgba(155,92,82,.55); box-shadow: 0 0 0 4px rgba(155,92,82,.10); }
+
+    .date-area .field + .field { margin-top: 16px; }
+
+    .final-message {
+      margin: 30px auto 0;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(200,155,94,.13);
+      border: 1px solid rgba(200,155,94,.22);
+      line-height: 1.6;
+      max-width: 560px;
+    }
+
+    .small {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer {
+      padding: 0 24px 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+
+    .hearts {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -30px;
+      opacity: 0;
+      animation: floatUp 7s ease-in infinite;
+      font-size: 18px;
+    }
+
+    .heart:nth-child(1) { left: 8%; animation-delay: 0s; }
+    .heart:nth-child(2) { left: 26%; animation-delay: 2.1s; }
+    .heart:nth-child(3) { left: 74%; animation-delay: 1s; }
+    .heart:nth-child(4) { left: 91%; animation-delay: 3.2s; }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      15% { opacity: .65; }
+      100% { transform: translateY(-520px) rotate(18deg); opacity: 0; }
+    }
+
+    .no-message {
+      margin-top: 24px;
+      color: var(--muted);
+      min-height: 24px;
+      font-size: 14px;
+    }
+
+
+    .runaway-wrap {
+      position: relative;
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #maybeBtn {
+      position: relative;
+    }
+
+    .playlist-note {
+      margin: 24px auto 0;
+      max-width: 560px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(155,92,82,.08);
+      border: 1px solid rgba(155,92,82,.16);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .whatsapp-button {
+      margin-top: 14px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      .card { border-radius: 24px; }
+      .content { padding: 22px 22px 40px; }
+      .buttons button { width: 100%; }
+    }
+    .jaguar-icon {
+      font-size: 42px;
+      margin: 6px auto 14px;
+      animation: jaguarFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes jaguarFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+}
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <main class="shell">
+    <section class="card">
+      <div class="hearts" aria-hidden="true">
+        <div class="heart">♥</div><div class="heart">♡</div><div class="heart">♥</div><div class="heart">♡</div>
+      </div>
+
+      <div class="top-note">um convite especial</div>
+
+      <div id="inviteScreen" class="screen active">
+        <div class="content">
+          <div class="vinyl" aria-hidden="true"></div>
+          <h1>Mary,<br>vamos sair?</h1>
+          <div class="jaguar-icon" aria-label="Onça">🐆</div>
+          <p class="subtitle">
+            Pensei em uma coisa simples:um date, uma conversa boa e um bom lugar.
+          </p>
+
+          <div class="quote">
+            Talvez a gente não precise de um grande plano.<br>
+            Apenas de uma boa conversa que faz o tempo voar
+          </div>
+<div class="buttons">
+            <button class="primary" id="yesBtn">Sim, eu aceito 💛</button>
+            <button class="secondary" id="maybeBtn">Ainda não</button>
+          </div>
+          <div class="no-message" id="noMessage"></div>
+        </div>
+      </div>
+
+      <div id="dateScreen" class="screen">
+        <div class="content">
+          <div class="vinyl" aria-hidden="true" style="animation-play-state: running;"></div>
+          <h1>Então combinado. ✨</h1>
+          <p class="subtitle">Agora você escolhe o dia. Prometo levar a parte da organização a sério.</p>
+
+          <div class="date-area">
+            <div class="field">
+              <label for="date">Que dia funciona para você?</label>
+              <input id="date" type="date" />
+            </div>
+
+            <div class="field">
+              <label for="time">E qual horário combina mais?</label>
+              <select id="time">
+                <option value="">Escolha um horário</option>
+                <option>14:30</option>
+                <option>16:30</option>
+                <option>19:30</option>
+                <option>20:30</option>
+                <option>21:00</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="buttons">
+            <button class="primary" id="confirmBtn">Confirmar 💌</button>
+            <button class="secondary" id="backBtn">Voltar</button>
+          </div>
+
+          <div class="buttons" style="margin-top: 14px;">
+            <a class="link-button secondary" id="playlistBtn" href="#" target="_blank" rel="noopener noreferrer">🎵 Até la coloque musicas na playlist para que eu possa te conhecer melhor</a>
+            <a class="link-button primary whatsapp-button" id="whatsappBtn" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">💬 Mandar minha escolha</a>
+          </div>
+
+          <div id="confirmation" class="final-message" style="display:none;"></div>
+          <div class="playlist-note">🎶 <strong>Depois do encontro marcado:</strong> entra na nossa playlist e adiciona uma música que você escolher.</div>
+        </div>
+      </div>
+
+      <div class="footer">feito com carinho, um pouco de HTML e uma boa dose de coragem.</div>
+    </section>
+  </main>
+
+  <script>
+    const inviteScreen = document.getElementById('inviteScreen');
+    const dateScreen = document.getElementById('dateScreen');
+    const yesBtn = document.getElementById('yesBtn');
+    const maybeBtn = document.getElementById('maybeBtn');
+    const noMessage = document.getElementById('noMessage');
+    const backBtn = document.getElementById('backBtn');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const dateInput = document.getElementById('date');
+    const timeInput = document.getElementById('time');
+    const confirmation = document.getElementById('confirmation');
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    const runawayWrap = document.getElementById('runawayWrap');
+    const playlistBtn = document.getElementById('playlistBtn');
+
+    // ===== CONFIGURAÇÃO =====
+    // Coloque aqui seu número com 55 + DDD + número, somente dígitos.
+    // Exemplo: 5583999999999
+    const WHATSAPP_NUMBER = '5575998405048';
+    // Cole aqui o link EXATO da playlist que vocês já têm.
+    // Exemplo: https://open.spotify.com/playlist/123456789
+    const PLAYLIST_URL = 'https://open.spotify.com/playlist/37i9dQZF1EJMsVPbpusIS8?si=892f53b5e5a94989';
+
+    if (playlistBtn) {
+      if (PLAYLIST_URL.startsWith('http')) {
+        playlistBtn.href = PLAYLIST_URL;
+      } else {
+        playlistBtn.addEventListener('click', (event) => {
+          event.preventDefault();
+          alert('Ainda falta colocar o link da playlist no código. 💜');
+        });
+      }
+    }
+
+    // ===== BOTÃO 'NÃO' QUE FOGE =====
+    let escapeCount = 0;
+    const escapeTexts = ['Não 😅', 'Pega não! 😂', 'Quase! 😏', 'Você não vai conseguir 👀', 'Tá bom, eu entendi 😭'];
+
+    maybeBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      escapeCount += 1;
+      noMessage.textContent = escapeCount < 5
+        ? 'Esse botão ficou tímido e saiu correndo. 😂'
+        : 'Ok, ok… mas você pode dizer não de verdade. 😌';
+
+      if (escapeCount >= 5) {
+        maybeBtn.textContent = 'Não, de verdade';
+        maybeBtn.style.transform = 'none';
+        maybeBtn.style.position = 'relative';
+        return;
+      }
+
+      const maxX = Math.max(70, runawayWrap.parentElement.clientWidth / 2 - 50);
+      const maxY = 90;
+      const x = Math.round((Math.random() * 2 - 1) * maxX);
+      const y = Math.round((Math.random() * 2 - 1) * maxY);
+      maybeBtn.style.transform = `translate(${x}px, ${y}px)`;
+      maybeBtn.textContent = escapeTexts[Math.min(escapeCount, escapeTexts.length - 1)];
+    });
+
+    // Não permite selecionar datas passadas.
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.min = tomorrow.toISOString().split('T')[0];
+
+    yesBtn.addEventListener('click', () => {
+      inviteScreen.classList.remove('active');
+      dateScreen.classList.add('active');
+      dateInput.focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    backBtn.addEventListener('click', () => {
+      confirmation.style.display = 'none';
+      dateScreen.classList.remove('active');
+      inviteScreen.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    confirmBtn.addEventListener('click', () => {
+      if (!dateInput.value || !timeInput.value) {
+        confirmation.style.display = 'block';
+        confirmation.textContent = 'Só falta escolher o dia e o horário. 💛';
+        return;
+      }
+
+      const [year, month, day] = dateInput.value.split('-');
+      const formattedDate = `${day}/${month}/${year}`;
+      const selectedTime = timeInput.value;
+      confirmation.style.display = 'block';
+      confirmation.innerHTML = `<strong>Fechado! 💛</strong><br><br>Nosso encontro ficou marcado para <strong>${formattedDate}</strong>, às <strong>${selectedTime}</strong>.<br><br>Agora só falta adicionar uma música na nossa playlist. 🎶`;
+
+      // Monta a mensagem para você receber a escolha no WhatsApp.
+      const message = `Oi! 😊 Eu escolhi nosso encontro para ${formattedDate}, às ${selectedTime}. 💛`;
+      const cleanNumber = WHATSAPP_NUMBER.replace(/\D/g, '');
+      if (/^55\d{10,11}$/.test(cleanNumber)) {
+        whatsappBtn.href = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`;
+        whatsappBtn.style.display = 'inline-flex';
+      } else {
+        whatsappBtn.style.display = 'none';
+      }
+
+      // Salva a escolha neste navegador para ela não desaparecer ao atualizar a página.
+      localStorage.setItem('mary-date', formattedDate);
+      localStorage.setItem('mary-time', selectedTime);
+    });
+
+    // Recupera uma escolha anterior, caso a página seja recarregada.
+    const savedDate = localStorage.getItem('mary-date');
+    const savedTime = localStorage.getItem('mary-time');
+    if (savedDate && savedTime) {
+      confirmation.style.display = 'block';
+      confirmation.innerHTML = `Você escolheu <strong>${savedDate}</strong>, às <strong>${savedTime}</strong>. 💌<br><br>Agora só falta adicionar uma música na nossa playlist. 🎶`;
+      const savedMessage = `Oi! 😊 Eu escolhi nosso encontro para ${savedDate}, às ${savedTime}. 💛`;
+      const cleanNumber = WHATSAPP_NUMBER.replace(/\D/g, '');
+      if (/^55\d{10,11}$/.test(cleanNumber)) {
+        whatsappBtn.href = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(savedMessage)}`;
+        whatsappBtn.style.display = 'inline-flex';
+      }
+    }
+  </script>
+</body>
+</html>
